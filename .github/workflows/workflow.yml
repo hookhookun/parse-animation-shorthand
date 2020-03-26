@@ -1,0 +1,49 @@
+
+name: CI Setup
+on:
+  - push
+  - pull_request
+jobs:
+  Install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            node_modules-
+      - uses: actions/setup-node@v1
+        with: {node-version: 12.x}
+      - run: npm ci
+  Test:
+    needs: [Install]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('**/package-lock.json') }}
+      - uses: actions/setup-node@v1
+        with: {node-version: 12.x}
+      - run: npm test
+  Build:
+    needs: [Test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('**/package-lock.json') }}
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: https://registry.npmjs.org
+      - run: npm run build
+      - run: npm publish
+        if: contains(github.ref, 'tags/v')
+        env: 
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

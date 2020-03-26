@@ -1,0 +1,96 @@
+{
+    "name": "@hookun/parse-animation-shorthand",
+    "publishConfig": {
+        "access": "public"
+    },
+    "description": "A parser for the value of CSS animation shorthand property.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/hookun/parse-animation-shorthand"
+    },
+    "version": "0.0.0",
+    "license": "Apache-2.0",
+    "author": {
+        "name": "Hookun",
+        "email": "hookhookun@gmail.com",
+        "url": "https://github.com/hookun"
+    },
+    "engines": {
+        "node": ">=10"
+    },
+    "main": "lib/index.js",
+    "files": [
+        "lib"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "test": "run-s test:*",
+        "test:lint": "eslint --ext .ts src",
+        "test:module": "ava"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^2.25.0",
+        "@typescript-eslint/parser": "^2.25.0",
+        "ava": "^3.5.1",
+        "eslint": "^6.8.0",
+        "lezer-generator": "^0.8.0",
+        "npm-run-all": "^4.1.5",
+        "ts-node": "^8.8.1",
+        "typescript": "^3.8.3"
+    },
+    "ava": {
+        "extensions": [
+            "ts"
+        ],
+        "require": [
+            "ts-node/register"
+        ]
+    },
+    "eslintConfig": {
+        "extends": [
+            "eslint:recommended",
+            "plugin:@typescript-eslint/eslint-recommended",
+            "plugin:@typescript-eslint/recommended"
+        ],
+        "parser": "@typescript-eslint/parser",
+        "plugins": [
+            "@typescript-eslint"
+        ],
+        "env": {
+            "es6": true
+        },
+        "rules": {
+            "quotes": "off",
+            "semi": "off",
+            "@typescript-eslint/semi": "error",
+            "@typescript-eslint/quotes": [
+                "error",
+                "single"
+            ],
+            "@typescript-eslint/member-delimiter-style": [
+                "error",
+                {
+                    "multiline": {
+                        "delimiter": "comma",
+                        "requireLast": true
+                    },
+                    "singleline": {
+                        "delimiter": "comma",
+                        "requireLast": false
+                    }
+                }
+            ]
+        },
+        "overrides": [
+            {
+                "files": [
+                    "./src/getCustomIdent.ts",
+                    "./src/getString.ts"
+                ],
+                "rules": {
+                    "no-constant-condition": "off"
+                }
+            }
+        ]
+    }
+}
