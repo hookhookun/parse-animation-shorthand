@@ -1,12 +1,13 @@
 import ava from 'ava';
-import {parse, CSSAnimation} from '..';
+import {parseAnimationShorthand} from './parseAnimationShorthand';
+import {CSSAnimation} from './type';
 
 const test = (
     input: string,
-    expected: ReturnType<typeof parse>,
+    expected: ReturnType<typeof parseAnimationShorthand>,
 ): void => {
     ava(input, (t) => {
-        t.deepEqual(parse(input), expected);
+        t.deepEqual(parseAnimationShorthand(input), expected);
     });
 };
 
