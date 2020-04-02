@@ -100,7 +100,12 @@ export const parseSingleAnimationShorthand = (
         }
     }
     if (!result.name) {
-        throw new Error('NoName');
+        if (result.fillMode === 'none') {
+            result.name = 'none';
+            delete result.fillMode;
+        } else {
+            throw new Error('NoName');
+        }
     }
     return fillAnimation(result as Partial<CSSAnimation> & {name: string});
 };
