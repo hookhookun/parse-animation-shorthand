@@ -16,6 +16,7 @@ const test = (
     });
 };
 
+test('none', {name: 'none'});
 test('3s MyAnimation', {
     name: 'MyAnimation',
     duration: 3000,
