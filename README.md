@@ -8,7 +8,9 @@ A parser for [The animation shorthand CSS property](https://developer.mozilla.or
 npm install @hookun/parse-animation-shorthand
 ```
 
-## parse(value: string)
+## API
+
+### parse(*value*: `string`) → <code>Array<[*CSSAnimation*](#whats-the-cssanimation)></code>
 
 ```javascript
 import {parse} from '@hookun/parse-animation-shorthand';
@@ -37,7 +39,7 @@ const expectedResult = [
 ];
 ```
 
-## serialize(value: CSSAnimation)
+### serialize(*value*: *<code>[CSSAnimation](#whats-the-cssanimation)</code>*) → `string`
 
 ```javascript
 import {serialize} from '@hookun/parse-animation-shorthand';
@@ -52,6 +54,72 @@ const result = serialize({
     playState: 'unset',
 });
 const expectedResult = '3s ease-in SlideIn';
+```
+
+### What's the *`CSSAnimation`*?
+
+```typescript
+interface CSSAnimation {
+    name: string
+    duration: number | Unset
+    timingFunction: CSSTimingFunction | Unset
+    delay: number | Unset
+    iterationCount: number | 'infinite' | Unset
+    direction: CSSAnimationDirection | Unset
+    fillMode: CSSAnimationFillMode | Unset
+    playState: CSSAnimationPlayState | Unset
+}
+
+type Unset = 'unset'
+
+type CSSTimingFunction =
+| CSSTimingFunctionKeyword
+| CSSCubicBezier
+| CSSSteps
+
+type CSSTimingFunctionKeyword =
+| 'ease'
+| 'ease-in'
+| 'ease-out'
+| 'ease-in-out'
+| 'linear'
+| 'step-start'
+| 'step-end'
+
+interface CSSCubicBezier {
+    type: 'cubic-bezier'
+    value: [number, number, number, number]
+}
+
+interface CSSSteps {
+    type: 'steps'
+    stepCount: number
+    direction: CSSStepDirection
+}
+
+type CSSStepDirection =
+| 'jump-start'
+| 'jump-end'
+| 'jump-none'
+| 'jump-both'
+| 'start'
+| 'end'
+
+type CSSAnimationDirection =
+| 'normal'
+| 'reverse'
+| 'alternate'
+| 'alternate-reverse';
+
+type CSSAnimationFillMode =
+| 'none'
+| 'forwards'
+| 'backwards'
+| 'both'
+
+type CSSAnimationPlayState =
+| 'paused'
+| 'running'
 ```
 
 ## License
