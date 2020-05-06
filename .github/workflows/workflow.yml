@@ -28,7 +28,10 @@ jobs:
           key: node_modules-${{ hashFiles('**/package-lock.json') }}
       - uses: actions/setup-node@v1
         with: {node-version: 12.x}
-      - run: npm test
+      - run: npm install --no-save c8
+      - run: npx c8 npm test
+      - run: npx c8 report --reporter=text-lcov > coverage.lcov
+      - run: bash <(curl -s https://codecov.io/bash)
   Build:
     needs: [Test]
     runs-on: ubuntu-latest

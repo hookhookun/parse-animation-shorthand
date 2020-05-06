@@ -1,5 +1,8 @@
 # @hookun/parse-animation-shorthand
 
+[![codecov](https://codecov.io/gh/hookun/parse-animation-shorthand/branch/master/graph/badge.svg)](https://codecov.io/gh/hookun/parse-animation-shorthand)
+![CI Setup](https://github.com/hookun/parse-animation-shorthand/workflows/CI%20Setup/badge.svg)
+
 A parser for [The animation shorthand CSS property](https://developer.mozilla.org/docs/Web/CSS/animation).
 
 ## Install
