@@ -26,6 +26,7 @@ import {
 import {getNumber} from './getNumber';
 import {getCubicBezier} from './getCubicBezier';
 import {getSteps} from './getSteps';
+import {$Error as Error} from './Error';
 
 export const parseSingleAnimationShorthand = (
     input: string,
@@ -41,7 +42,7 @@ export const parseSingleAnimationShorthand = (
                 return;
             }
         }
-        throw new Error(`UnexpectedValue: ${value} (${keys.join(', ')})`);
+        throw new Error('UnexpectedValue', `${value} (${keys.join(', ')})`);
     };
     let index = 0;
     const inputLength = input.length;
@@ -67,21 +68,22 @@ export const parseSingleAnimationShorthand = (
             index = end;
         } else {
             const {value, end} = getCustomIdent(input, index);
+            index = end;
             if (value === 'infinite') {
                 set(value, 'iterationCount');
             } else if (value === 'cubic-bezier') {
                 if (input.charCodeAt(end) === OpenParenthesis) {
-                    const {value, end} = getCubicBezier(input, index);
-                    set(value, 'timingFunction');
-                    index = end;
+                    const result = getCubicBezier(input, index);
+                    set(result.value, 'timingFunction');
+                    index = result.end;
                 } else {
                     set(value, 'name');
                 }
             } else if (value === 'steps') {
                 if (input.charCodeAt(end) === OpenParenthesis) {
-                    const {value, end} = getSteps(input, index);
-                    set(value, 'timingFunction');
-                    index = end;
+                    const result = getSteps(input, index);
+                    set(result.value, 'timingFunction');
+                    index = result.end;
                 } else {
                     set(value, 'name');
                 }
@@ -96,7 +98,6 @@ export const parseSingleAnimationShorthand = (
             } else {
                 set(value, 'name');
             }
-            index = end;
         }
     }
     if (!result.name) {

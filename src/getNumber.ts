@@ -1,5 +1,6 @@
 import {isNumberStart} from './character';
 import {skip} from './skip';
+import {$Error as Error} from './Error';
 
 export const getNumber = (
     input: string,
@@ -15,5 +16,5 @@ export const getNumber = (
             value: Number(literal),
         };
     }
-    throw new Error(`InvalidNumber: ${literal}`);
+    throw new Error('InvalidNumber', literal);
 };

@@ -7,6 +7,7 @@ import {
 import {skip} from './skip';
 import {getNumber} from './getNumber';
 import {CSSCubicBezier} from './type';
+import {$Error as Error} from './Error';
 
 export const getCubicBezier = (
     input: string,

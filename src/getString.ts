@@ -5,6 +5,7 @@ import {
     isNot,
 } from './character';
 import {skip} from './skip';
+import {$Error as Error} from './Error';
 
 export const getString = (
     input: string,
@@ -12,7 +13,7 @@ export const getString = (
 ): {start: number, end: number, value: string} => {
     const quote = input.charCodeAt(start);
     if (quote !== DoubleQuote && quote !== SingleQuote) {
-        throw new Error(`InvalidQuote: ${input[start]}`);
+        throw new Error('InvalidQuote', input[start]);
     }
     const isNotQuoteOrBackslash = isNot(quote, Backslash);
     const fragments: Array<string> = [];

@@ -4,6 +4,7 @@ import {
     isHexCharacter,
 } from './character';
 import {skip} from './skip';
+import {$Error as Error} from './Error';
 
 export const getCustomIdent = (
     input: string,
@@ -34,5 +35,5 @@ export const getCustomIdent = (
     if (value) {
         return {start, end, value};
     }
-    throw new Error('NoIdent');
+    throw new Error('NoIdent', [input.slice(0, start), input.slice(start)].join('→'));
 };
