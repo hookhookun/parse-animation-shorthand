@@ -9,6 +9,7 @@ import {
 import {skip} from './skip';
 import {StepDirection} from './keyword';
 import {CSSSteps, CSSStepDirection} from './type';
+import {$Error as Error} from './Error';
 
 export const getSteps = (
     input: string,
@@ -26,7 +27,7 @@ export const getSteps = (
     end = skip(input, end + 1, isWhiteSpace);
     const direction = getCustomIdent(input, end);
     if (!StepDirection.has(direction.value)) {
-        throw new Error(`UnknownStepDirection: ${direction.value}`);
+        throw new Error('UnknownStepDirection', direction.value);
     }
     end = skip(input, direction.end, isWhiteSpace);
     if (input.charCodeAt(end) !== CloseParenthesis) {
