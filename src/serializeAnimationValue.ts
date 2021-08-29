@@ -1,5 +1,4 @@
 import {CSSAnimation, CSSCubicBezier, CSSSteps} from './type';
-import {Unset} from './fillAnimation';
 import {serializeNumber} from './serializeNumber';
 import {shortest} from './shortest';
 
@@ -7,7 +6,7 @@ export const serializeAnimationValue = <Key extends keyof CSSAnimation>(
     key: Key,
     value: CSSAnimation[Key],
 ): string => {
-    if (value === Unset) {
+    if (value === 'unset') {
         return '';
     }
     if (typeof value === 'object') {

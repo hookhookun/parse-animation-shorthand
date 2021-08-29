@@ -1,5 +1,5 @@
 export interface CodePointTest {
-    (cp: number): boolean,
+    (cp?: number): cp is number,
 }
 
 export interface CSSCubicBezier {

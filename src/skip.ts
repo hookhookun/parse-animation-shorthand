@@ -7,8 +7,12 @@ export const skip = (
 ): number => {
     let end = start;
     const inputLength = input.length;
-    while (end <= inputLength && test(input.charCodeAt(end))) {
-        end += 1;
+    while (end <= inputLength) {
+        const cp = input.codePointAt(end);
+        if (!test(cp)) {
+            break;
+        }
+        end += 0xFFFF < cp ? 2 : 1;
     }
     return end;
 };

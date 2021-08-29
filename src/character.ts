@@ -27,24 +27,24 @@ export const Hyphen = 0x2D;
 export const Underscore = 0x5F;
 
 export const isInRange = (
-    cp: number,
+    cp: number | undefined,
     min: number,
     max: number,
-): boolean => min <= cp && cp <= max;
+): cp is number => typeof cp === 'number' && min <= cp && cp <= max;
 export const isOneOf = (...cps: Array<number>): CodePointTest => {
-    const set = new Set(cps);
-    return (cp): boolean => set.has(cp);
+    const set = new Set<number | undefined>(cps);
+    return (cp): cp is number => set.has(cp);
 };
 export const isNot = (...cps: Array<number>): CodePointTest => {
-    const set = new Set(cps);
-    return (cp): boolean => !set.has(cp);
+    const set = new Set<number | undefined>(cps);
+    return (cp): cp is number => !set.has(cp);
 };
 
 export const isWhiteSpace: CodePointTest = isOneOf(Space, HTab, LF, CR);
-export const isDigit: CodePointTest = (cp) => isInRange(cp, Zero, Nine);
-export const isUpperAlpha: CodePointTest = (cp) => isInRange(cp, UpperA, UpperZ);
-export const isLowerAlpha: CodePointTest = (cp) => isInRange(cp, LowerA, LowerZ);
-export const isAlpha: CodePointTest = (cp) => isUpperAlpha(cp) || isLowerAlpha(cp);
-export const isNumberStart: CodePointTest = (cp) => isDigit(cp) || cp === Dot;
-export const isHexCharacter: CodePointTest = (cp) => isDigit(cp) || isInRange(cp, UpperA, UpperF) || isInRange(cp, LowerA, LowerF);
-export const isIdentCharacter: CodePointTest = (cp) => isDigit(cp) || isAlpha(cp) || cp === Hyphen || cp === Underscore;
+export const isDigit: CodePointTest = (cp): cp is number => isInRange(cp, Zero, Nine);
+export const isUpperAlpha: CodePointTest = (cp): cp is number => isInRange(cp, UpperA, UpperZ);
+export const isLowerAlpha: CodePointTest = (cp): cp is number => isInRange(cp, LowerA, LowerZ);
+export const isAlpha: CodePointTest = (cp): cp is number => isUpperAlpha(cp) || isLowerAlpha(cp);
+export const isNumberStart: CodePointTest = (cp): cp is number => isDigit(cp) || cp === Dot;
+export const isHexCharacter: CodePointTest = (cp): cp is number => isDigit(cp) || isInRange(cp, UpperA, UpperF) || isInRange(cp, LowerA, LowerF);
+export const isIdentCharacter: CodePointTest = (cp): cp is number => isDigit(cp) || isAlpha(cp) || cp === Hyphen || cp === Underscore;
