@@ -1,8 +1,6 @@
 export interface CodePointTest {
-    (cp: number): boolean,
+    (cp?: number): cp is number,
 }
-
-export type Unset = 'unset';
 
 export interface CSSCubicBezier {
     type: 'cubic-bezier',
@@ -52,11 +50,11 @@ export type CSSAnimationPlayState =
 
 export interface CSSAnimation {
     name: string,
-    duration: number | Unset,
-    timingFunction: CSSTimingFunction | Unset,
-    delay: number | Unset,
-    iterationCount: number | 'infinite' | Unset,
-    direction: CSSAnimationDirection | Unset,
-    fillMode: CSSAnimationFillMode | Unset,
-    playState: CSSAnimationPlayState | Unset,
+    duration: number | 'unset',
+    timingFunction: CSSTimingFunction | 'unset',
+    delay: number | 'unset',
+    iterationCount: number | 'infinite' | 'unset',
+    direction: CSSAnimationDirection | 'unset',
+    fillMode: CSSAnimationFillMode | 'unset',
+    playState: CSSAnimationPlayState | 'unset',
 }

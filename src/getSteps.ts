@@ -15,13 +15,13 @@ export const getSteps = (
     input: string,
     start: number,
 ): {start: number, end: number, value: CSSSteps} => {
-    if (input.charCodeAt(start) !== OpenParenthesis) {
+    if (input.codePointAt(start) !== OpenParenthesis) {
         throw new Error('NoOpenParenthesis');
     }
     let end = skip(input, start + 1, isWhiteSpace);
     const count = getNumber(input, end);
     end = skip(input, count.end, isWhiteSpace);
-    if (input.charCodeAt(end) !== Comma) {
+    if (input.codePointAt(end) !== Comma) {
         throw new Error('NoComma');
     }
     end = skip(input, end + 1, isWhiteSpace);
@@ -30,7 +30,7 @@ export const getSteps = (
         throw new Error('UnknownStepDirection', direction.value);
     }
     end = skip(input, direction.end, isWhiteSpace);
-    if (input.charCodeAt(end) !== CloseParenthesis) {
+    if (input.codePointAt(end) !== CloseParenthesis) {
         throw new Error('UnclosedParenthesis');
     }
     return {

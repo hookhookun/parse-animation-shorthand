@@ -1,18 +1,13 @@
-import {
-    CSSAnimation,
-    Unset as UnsetType,
-} from './type';
-export const Unset: UnsetType = 'unset';
-export const fillAnimation = (patch: Partial<CSSAnimation> & {name: string}): CSSAnimation => Object.assign(
-    {
-        duration: Unset,
-        delay: Unset,
-        timingFunction: Unset,
-        iterationCount: Unset,
-        direction: Unset,
-        fillMode: Unset,
-        playState: Unset,
-        name: patch.name,
-    },
-    patch,
-);
+import {CSSAnimation} from './type';
+
+const defaults: Omit<CSSAnimation, 'name'> = {
+    duration: 'unset',
+    delay: 'unset',
+    timingFunction: 'unset',
+    iterationCount: 'unset',
+    direction: 'unset',
+    fillMode: 'unset',
+    playState: 'unset',
+};
+
+export const fillAnimation = (patch: Partial<CSSAnimation> & {name: string}): CSSAnimation => ({...defaults, ...patch});

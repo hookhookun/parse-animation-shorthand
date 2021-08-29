@@ -48,7 +48,7 @@ export const parseSingleAnimationShorthand = (
     const inputLength = input.length;
     while (index < inputLength) {
         index = skip(input, index, isWhiteSpace);
-        const cp = input.charCodeAt(index);
+        const cp = input.codePointAt(index);
         if (isNumberStart(cp)) {
             const {value, end} = getNumber(input, index);
             index = skip(input, end, isAlpha);
@@ -72,7 +72,7 @@ export const parseSingleAnimationShorthand = (
             if (value === 'infinite') {
                 set(value, 'iterationCount');
             } else if (value === 'cubic-bezier') {
-                if (input.charCodeAt(end) === OpenParenthesis) {
+                if (input.codePointAt(end) === OpenParenthesis) {
                     const result = getCubicBezier(input, index);
                     set(result.value, 'timingFunction');
                     index = result.end;
@@ -80,7 +80,7 @@ export const parseSingleAnimationShorthand = (
                     set(value, 'name');
                 }
             } else if (value === 'steps') {
-                if (input.charCodeAt(end) === OpenParenthesis) {
+                if (input.codePointAt(end) === OpenParenthesis) {
                     const result = getSteps(input, index);
                     set(result.value, 'timingFunction');
                     index = result.end;
