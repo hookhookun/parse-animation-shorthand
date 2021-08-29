@@ -17,6 +17,18 @@ jobs:
       - uses: actions/setup-node@v1
         with: {node-version: 12.x}
       - run: npm ci
+  Lint:
+    needs: [Install]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('**/package-lock.json') }}
+      - uses: actions/setup-node@v1
+        with: {node-version: 12.x}
+      - run: npm run lint
   Test:
     needs: [Install]
     runs-on: ubuntu-latest
@@ -33,7 +45,7 @@ jobs:
       - run: npx c8 report --reporter=text-lcov > coverage.lcov
       - run: bash <(curl -s https://codecov.io/bash)
   Build:
-    needs: [Test]
+    needs: [Lint, Test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

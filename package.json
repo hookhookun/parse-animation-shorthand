@@ -24,9 +24,8 @@
     ],
     "scripts": {
         "build": "tsc",
-        "test": "run-s test:*",
-        "test:lint": "eslint --ext .ts src",
-        "test:module": "ava"
+        "test": "ava",
+        "lint": "eslint --ext .ts src"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "4.29.3",
@@ -36,60 +35,5 @@
         "npm-run-all": "^4.1.5",
         "ts-node": "10.2.1",
         "typescript": "4.4.2"
-    },
-    "ava": {
-        "extensions": [
-            "ts"
-        ],
-        "require": [
-            "ts-node/register"
-        ]
-    },
-    "eslintConfig": {
-        "extends": [
-            "eslint:recommended",
-            "plugin:@typescript-eslint/eslint-recommended",
-            "plugin:@typescript-eslint/recommended"
-        ],
-        "parser": "@typescript-eslint/parser",
-        "plugins": [
-            "@typescript-eslint"
-        ],
-        "env": {
-            "es6": true
-        },
-        "rules": {
-            "quotes": "off",
-            "semi": "off",
-            "@typescript-eslint/semi": "error",
-            "@typescript-eslint/quotes": [
-                "error",
-                "single"
-            ],
-            "@typescript-eslint/member-delimiter-style": [
-                "error",
-                {
-                    "multiline": {
-                        "delimiter": "comma",
-                        "requireLast": true
-                    },
-                    "singleline": {
-                        "delimiter": "comma",
-                        "requireLast": false
-                    }
-                }
-            ]
-        },
-        "overrides": [
-            {
-                "files": [
-                    "./src/getCustomIdent.ts",
-                    "./src/getString.ts"
-                ],
-                "rules": {
-                    "no-constant-condition": "off"
-                }
-            }
-        ]
     }
 }
