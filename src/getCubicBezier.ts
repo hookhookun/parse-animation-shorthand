@@ -13,7 +13,7 @@ export const getCubicBezier = (
     input: string,
     start: number,
 ): {start: number, end: number, value: CSSCubicBezier} => {
-    if (input.charCodeAt(start) !== OpenParenthesis) {
+    if (input.codePointAt(start) !== OpenParenthesis) {
         throw new Error('NoOpenParenthesis');
     }
     const value: [number, number, number, number] = [0, 0, 0, 0];
@@ -21,7 +21,7 @@ export const getCubicBezier = (
     for (let index = 0; index < 4; index++) {
         end = skip(input, end, isWhiteSpace);
         if (0 < index) {
-            if (input.charCodeAt(end) === Comma) {
+            if (input.codePointAt(end) === Comma) {
                 end = skip(input, end + 1, isWhiteSpace);
             } else {
                 throw new Error('NoComma');
@@ -32,7 +32,7 @@ export const getCubicBezier = (
         end = number.end;
     }
     end = skip(input, end, isWhiteSpace);
-    if (input.charCodeAt(end) !== CloseParenthesis) {
+    if (input.codePointAt(end) !== CloseParenthesis) {
         throw new Error('UnclosedParenthesis');
     }
     return {

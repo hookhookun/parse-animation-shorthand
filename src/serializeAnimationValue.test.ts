@@ -1,7 +1,6 @@
 import ava from 'ava';
 import {serializeAnimationValue} from './serializeAnimationValue';
 import {CSSAnimation} from './type';
-import {Unset} from './fillAnimation';
 
 const test = <Key extends keyof CSSAnimation>(
     key: Key,
@@ -23,7 +22,7 @@ test('delay', 10, '10ms');
 test('delay', 100, '.1s');
 test('delay', 1000, '1s');
 test('iterationCount', 10, '10');
-test('iterationCount', Unset, '');
+test('iterationCount', 'unset', '');
 test('timingFunction', 'ease-in', 'ease-in');
 test(
     'timingFunction',

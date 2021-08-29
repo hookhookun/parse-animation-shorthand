@@ -16,7 +16,7 @@ export const getCustomIdent = (
         const fragmentStart = end;
         end = skip(input, end, isIdentCharacter);
         fragments.push(input.slice(fragmentStart, end));
-        if (input.charCodeAt(end) === Backslash) {
+        if (input.codePointAt(end) === Backslash) {
             end += 1;
             const hexEnd = skip(input, end, isHexCharacter);
             if (end < hexEnd) {

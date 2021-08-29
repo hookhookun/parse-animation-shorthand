@@ -11,7 +11,7 @@ export const getString = (
     input: string,
     start: number,
 ): {start: number, end: number, value: string} => {
-    const quote = input.charCodeAt(start);
+    const quote = input.codePointAt(start);
     if (quote !== DoubleQuote && quote !== SingleQuote) {
         throw new Error('InvalidQuote', input[start]);
     }
@@ -22,7 +22,7 @@ export const getString = (
         const fragmentStart = end;
         end = skip(input, end, isNotQuoteOrBackslash);
         fragments.push(input.slice(fragmentStart, end));
-        const charCode = input.charCodeAt(end);
+        const charCode = input.codePointAt(end);
         if (charCode === Backslash) {
             fragments.push(input.charAt(end + 1));
             end += 2;
