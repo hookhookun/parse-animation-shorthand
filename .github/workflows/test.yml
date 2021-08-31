@@ -21,6 +21,7 @@ jobs:
         with:
           node-version: 14.x
           cache: 'npm'
+      - run: npm ci --offline
       - run: npm run lint
       - run: npm run build
   Test:
@@ -32,6 +33,7 @@ jobs:
         with:
           node-version: 14.x
           cache: 'npm'
+      - run: npm ci --offline
       - run: npm install --no-save c8
       - run: npx c8 npm test
       - run: npx c8 report --reporter=text-lcov > coverage.lcov
