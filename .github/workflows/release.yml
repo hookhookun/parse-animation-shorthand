@@ -1,0 +1,52 @@
+name: Release
+on:
+  release:
+    types: [published]
+jobs:
+  Install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: 'npm'
+      - run: npm ci
+  Lint:
+    needs: [Install]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: 'npm'
+      - run: npm run lint
+  Test:
+    needs: [Install]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: 'npm'
+      - run: npm install --no-save c8
+      - run: npx c8 npm test
+      - run: npx c8 report --reporter=text-lcov > coverage.lcov
+      - run: bash <(curl -s https://codecov.io/bash)
+  Publish:
+    needs: [Lint, Test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: 'npm'
+          registry-url: https://registry.npmjs.org
+      - run: npm run build
+      - run: npm publish
+        if: contains(github.ref, 'tags/v')
+        env: 
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
