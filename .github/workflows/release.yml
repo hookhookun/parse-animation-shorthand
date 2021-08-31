@@ -21,6 +21,7 @@ jobs:
         with:
           node-version: 14.x
           cache: 'npm'
+      - run: npm ci --offline
       - run: npm run lint
   Test:
     needs: [Install]
@@ -31,6 +32,7 @@ jobs:
         with:
           node-version: 14.x
           cache: 'npm'
+      - run: npm ci --offline
       - run: npm install --no-save c8
       - run: npx c8 npm test
       - run: npx c8 report --reporter=text-lcov > coverage.lcov
@@ -45,6 +47,7 @@ jobs:
           node-version: 14.x
           cache: 'npm'
           registry-url: https://registry.npmjs.org
+      - run: npm ci --offline
       - run: npm run build
       - run: npm publish
         if: contains(github.ref, 'tags/v')
