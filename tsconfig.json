@@ -1,22 +1,15 @@
 {
     "compilerOptions": {
-        "allowJs": true,
-        "allowSyntheticDefaultImports": false,
-        "allowUmdGlobalAccess": false,
-        "allowUnreachableCode": false,
-        "allowUnusedLabels": false,
+        "target": "ESNext",
+        "module": "ESNext",
+        "noEmit": true,
         "declaration": true,
-        "module": "CommonJS",
-        "moduleResolution": "Node",
-        "newLine": "lf",
+        "strict": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitReturns": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "removeComments": true,
-        "strict": true,
-        "target": "ES2019",
-        "outDir": "lib"
+        "removeComments": true
     },
     "include": [
         "./src/**/*.ts"
