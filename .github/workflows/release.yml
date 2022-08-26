@@ -1,11 +1,8 @@
-name: Release
 on:
   release:
     types: [published]
 jobs:
   Publish:
-    if: contains(github.ref, 'tags/v')
-    needs: [Lint, Test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
