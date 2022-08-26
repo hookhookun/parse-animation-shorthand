@@ -15,12 +15,19 @@
         "email": "hookhookun@gmail.com",
         "url": "https://github.com/hookun"
     },
-    "main": "lib/index.js",
+    "main": "cjs/index.js",
+    "exports": {
+        "import": "./esm/index.js",
+        "require": "./cjs/index.js"
+    },
     "files": [
-        "lib"
+        "cjs",
+        "esm"
     ],
     "scripts": {
-        "build": "tsc",
+        "build": "run-p build:*",
+        "build:esm": "tsc --project tsconfig.esm.json",
+        "build:cjs": "tsc --project tsconfig.cjs.json",
         "test": "ava",
         "lint": "eslint --ext .ts src"
     },
