@@ -9,7 +9,7 @@ export const getNumber = (
     const end = skip(input, start, isNumberStart);
     const literal = input.slice(start, end);
     const parts = literal.split('.');
-    if (parts.length <= 2 && /^([1-9]\d*|0)?$/.test(parts[0])) {
+    if (parts.length <= 2 && /^-?(?:[1-9]\d*|0)?$/.test(parts[0])) {
         return {
             start,
             end,
