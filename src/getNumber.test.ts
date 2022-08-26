@@ -20,6 +20,7 @@ const test = (
 };
 
 test('12.34', 0, {start: 0, end: 5, value: 12.34});
+test('-12.34', 0, {start: 0, end: 6, value: -12.34});
 test('0.123', 0, {start: 0, end: 5, value: 0.123});
 test('.123', 0, {start: 0, end: 4, value: 0.123});
 test('0.0.123', 0, null);

@@ -45,6 +45,6 @@ export const isDigit: CodePointTest = (cp): cp is number => isInRange(cp, Zero, 
 export const isUpperAlpha: CodePointTest = (cp): cp is number => isInRange(cp, UpperA, UpperZ);
 export const isLowerAlpha: CodePointTest = (cp): cp is number => isInRange(cp, LowerA, LowerZ);
 export const isAlpha: CodePointTest = (cp): cp is number => isUpperAlpha(cp) || isLowerAlpha(cp);
-export const isNumberStart: CodePointTest = (cp): cp is number => isDigit(cp) || cp === Dot;
+export const isNumberStart: CodePointTest = (cp): cp is number => isDigit(cp) || cp === Dot || cp === Hyphen;
 export const isHexCharacter: CodePointTest = (cp): cp is number => isDigit(cp) || isInRange(cp, UpperA, UpperF) || isInRange(cp, LowerA, LowerF);
 export const isIdentCharacter: CodePointTest = (cp): cp is number => isDigit(cp) || isAlpha(cp) || cp === Hyphen || cp === Underscore;
