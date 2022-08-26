@@ -7,7 +7,7 @@ const listEsmFiles = async function* () {
     for (const filename of await fs.readdir(directory)) {
         yield path.join(directory, filename);
     }
-}
+};
 
 const walkNodes = function* (node: ts.Node, source: ts.SourceFile): Generator<ts.Node> {
     yield node;

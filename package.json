@@ -31,7 +31,7 @@
         "build:esm:tsc": "tsc --project tsconfig.esm.json",
         "build:esm:resolve": "ts-node resolveEsm.ts",
         "test": "ava",
-        "lint": "eslint --ext .ts src"
+        "lint": "eslint --ext .ts src resolveEsm.ts"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "5.35.1",
