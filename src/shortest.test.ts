@@ -1,10 +1,9 @@
-import ava from 'ava';
+import * as assert from 'assert';
 import {shortest} from './shortest';
 
 const test = (expected: string, ...input: Array<string>): void => {
-    ava(`${JSON.stringify(input)} -> ${expected}`, (t) => {
-        t.is(shortest(...input), expected);
-    });
+    console.info(`${JSON.stringify(input)} -> ${expected}`);
+    assert.equal(shortest(...input), expected);
 };
 
 test('a', 'a', 'b', 'c', 'd');

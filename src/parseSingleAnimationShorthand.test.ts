@@ -1,19 +1,28 @@
-import ava from 'ava';
+import * as assert from 'assert';
 import {parseSingleAnimationShorthand} from './parseSingleAnimationShorthand';
 import {CSSAnimation} from './type';
 import {fillAnimation} from './fillAnimation';
 
 const test = (
     input: string,
-    expected: string | Partial<CSSAnimation> & {name: string},
+    expected: string | Partial<CSSAnimation> & {
+        name: string,
+        start?: number,
+        end?: number,
+    },
 ): void => {
-    ava(`${input} -> ${expected ? JSON.stringify(expected) : 'Error'}`, (t) => {
-        if (typeof expected === 'string') {
-            t.throws(() => parseSingleAnimationShorthand(input), {code: expected});
-        } else {
-            t.deepEqual(parseSingleAnimationShorthand(input), fillAnimation(expected));
-        }
-    });
+    console.info(`${input} -> ${expected ? JSON.stringify(expected) : 'Error'}`);
+    if (typeof expected === 'string') {
+        assert.throws(() => parseSingleAnimationShorthand(input), {code: expected});
+    } else {
+        const {start = 0, end = input.length, ...value} = expected;
+        const result = parseSingleAnimationShorthand(input, 0);
+        assert.deepEqual(result, {
+            value: fillAnimation(value),
+            start,
+            end,
+        });
+    }
 };
 
 test('none', {name: 'none'});
@@ -56,7 +65,7 @@ test('3s cubic-bezier(0.3,0.4,0.5,0.6) cubic-bezier', {
         value: [0.3, 0.4, 0.5, 0.6],
     },
 });
-test('3s steps(4,jump-both) steps', {
+test('  3s steps(4,jump-both) steps  , ', {
     name: 'steps',
     duration: 3000,
     timingFunction: {
@@ -64,4 +73,6 @@ test('3s steps(4,jump-both) steps', {
         stepCount: 4,
         direction: 'jump-both',
     },
+    start: 2,
+    end: 29,
 });

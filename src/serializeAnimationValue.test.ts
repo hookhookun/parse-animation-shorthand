@@ -1,4 +1,4 @@
-import ava from 'ava';
+import * as assert from 'assert';
 import {serializeAnimationValue} from './serializeAnimationValue';
 import {CSSAnimation} from './type';
 
@@ -7,9 +7,8 @@ const test = <Key extends keyof CSSAnimation>(
     value: CSSAnimation[Key],
     expected: string,
 ): void => {
-    ava(`${key}: ${value} -> ${expected}`, (t) => {
-        t.is(serializeAnimationValue(key, value), expected);
-    });
+    console.info(`${key}: ${value} -> ${expected}`);
+    assert.equal(serializeAnimationValue(key, value), expected);
 };
 
 test('name', 'foo', 'foo');

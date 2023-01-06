@@ -10,6 +10,17 @@ export const getCustomIdent = (
     input: string,
     start: number,
 ): {start: number, end: number, value: string} => {
+    const value = getCustomIdentOrNull(input, start);
+    if (value) {
+        return value;
+    }
+    throw new Error('NoIdent', [input.slice(0, start), input.slice(start)].join('→'));
+};
+
+export const getCustomIdentOrNull = (
+    input: string,
+    start: number,
+): {start: number, end: number, value: string} | null => {
     let end = start;
     const fragments: Array<string> = [];
     while (1) {
@@ -35,5 +46,5 @@ export const getCustomIdent = (
     if (value) {
         return {start, end, value};
     }
-    throw new Error('NoIdent', [input.slice(0, start), input.slice(start)].join('→'));
+    return null;
 };
