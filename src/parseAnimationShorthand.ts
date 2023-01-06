@@ -3,14 +3,13 @@ import {parseSingleAnimationShorthand} from './parseSingleAnimationShorthand';
 import {isWhiteSpace, Comma} from './character';
 import {skip} from './skip';
 
-export const parseAnimationShorthand = (
+export const parseAnimationShorthand = function* (
     input: string,
-): Array<CSSAnimation> => {
-    const list: Array<CSSAnimation> = [];
+): Generator<CSSAnimation> {
     let start = 0;
     while (start < input.length) {
         const result = parseSingleAnimationShorthand(input, start);
-        list.push(result.value);
+        yield result.value;
         start = result.end;
         start = skip(input, start, isWhiteSpace);
         if (input.codePointAt(start) === Comma) {
@@ -19,5 +18,4 @@ export const parseAnimationShorthand = (
             break;
         }
     }
-    return list;
 };
