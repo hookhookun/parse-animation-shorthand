@@ -1,10 +1,9 @@
-import ava from 'ava';
+import * as assert from 'assert';
 import {serializeNumber} from './serializeNumber';
 
 const test = (input: number, expected: string): void => {
-    ava(`${input} -> ${expected}`, (t) => {
-        t.is(serializeNumber(input), expected);
-    });
+    console.info(`${input} -> ${expected}`);
+    assert.equal(serializeNumber(input), expected);
 };
 
 test(0, '0');

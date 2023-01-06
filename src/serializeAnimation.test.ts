@@ -1,4 +1,4 @@
-import ava from 'ava';
+import * as assert from 'assert';
 import {serializeAnimation} from './serializeAnimation';
 import {CSSAnimation} from './type';
 
@@ -6,9 +6,8 @@ const test = (
     input: Partial<CSSAnimation> & {name: string},
     expected: string,
 ): void => {
-    ava(`${JSON.stringify(input)} -> ${expected}`, (t) => {
-        t.is(serializeAnimation(input), expected);
-    });
+    console.info(`${JSON.stringify(input)} -> ${expected}`);
+    assert.equal(serializeAnimation(input), expected);
 };
 
 test(

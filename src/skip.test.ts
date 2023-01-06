@@ -1,4 +1,4 @@
-import ava from 'ava';
+import * as assert from 'assert';
 import {skip} from './skip';
 import {CodePointTest} from './type';
 import {isWhiteSpace} from './character';
@@ -9,13 +9,12 @@ const test = (
     codePointTest: CodePointTest,
     expected: string | number,
 ): void => {
-    ava(`${input} ${start} ${codePointTest.name} -> ${expected ? JSON.stringify(expected) : 'Error'}`, (t) => {
-        if (typeof expected === 'string') {
-            t.throws(() => skip(input, start, codePointTest), {code: expected});
-        } else {
-            t.deepEqual(skip(input, start, codePointTest), expected);
-        }
-    });
+    console.info(`${input} ${start} ${codePointTest.name} -> ${expected ? JSON.stringify(expected) : 'Error'}`);
+    if (typeof expected === 'string') {
+        assert.throws(() => skip(input, start, codePointTest), {code: expected});
+    } else {
+        assert.deepEqual(skip(input, start, codePointTest), expected);
+    }
 };
 
 test('   a', 0, isWhiteSpace, 3);
