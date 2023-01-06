@@ -1,4 +1,4 @@
-import ava from 'ava';
+import * as assert from 'assert';
 import {getCustomIdent} from './getCustomIdent';
 
 const test = (
@@ -10,13 +10,12 @@ const test = (
         value: string,
     },
 ): void => {
-    ava(`${input} ${start} -> ${expected ? JSON.stringify(expected) : 'Error'}`, (t) => {
-        if (expected) {
-            t.deepEqual(getCustomIdent(input, start), expected);
-        } else {
-            t.throws(() => getCustomIdent(input, start));
-        }
-    });
+    console.info(`${input} ${start} -> ${expected ? JSON.stringify(expected) : 'Error'}`);
+    if (expected) {
+        assert.deepEqual(getCustomIdent(input, start), expected);
+    } else {
+        assert.throws(() => getCustomIdent(input, start));
+    }
 };
 
 test('"xyz"', 0, null);

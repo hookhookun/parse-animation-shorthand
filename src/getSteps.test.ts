@@ -1,4 +1,4 @@
-import ava from 'ava';
+import * as assert from 'assert';
 import {getSteps} from './getSteps';
 import {CSSStepDirection} from './type';
 
@@ -12,21 +12,20 @@ const test = (
         direction: string,
     },
 ): void => {
-    ava(`${input} ${start} -> ${expected ? JSON.stringify(expected) : 'Error'}`, (t) => {
-        if (typeof expected === 'string') {
-            t.throws(() => getSteps(input, start), {code: expected});
-        } else {
-            t.deepEqual(getSteps(input, start), {
-                start: expected.start,
-                end: expected.end,
-                value: {
-                    type: 'steps',
-                    stepCount: expected.count,
-                    direction: expected.direction as CSSStepDirection,
-                },
-            });
-        }
-    });
+    console.info(`${input} ${start} -> ${expected ? JSON.stringify(expected) : 'Error'}`);
+    if (typeof expected === 'string') {
+        assert.throws(() => getSteps(input, start), {code: expected});
+    } else {
+        assert.deepEqual(getSteps(input, start), {
+            start: expected.start,
+            end: expected.end,
+            value: {
+                type: 'steps',
+                stepCount: expected.count,
+                direction: expected.direction as CSSStepDirection,
+            },
+        });
+    }
 };
 
 test('(2,jump-start)', 0, {start: 0, end: 14, count: 2, direction: 'jump-start'});

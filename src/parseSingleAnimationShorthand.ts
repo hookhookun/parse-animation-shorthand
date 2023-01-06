@@ -15,7 +15,7 @@ import {
 } from './character';
 import {skip} from './skip';
 import {getString} from './getString';
-import {getCustomIdent} from './getCustomIdent';
+import {getCustomIdentOrNull} from './getCustomIdent';
 import {fillAnimation} from './fillAnimation';
 import {
     TimingFunctionKeyword,
@@ -30,7 +30,8 @@ import {$Error as Error} from './Error';
 
 export const parseSingleAnimationShorthand = (
     input: string,
-): CSSAnimation => {
+    startFrom = 0,
+): {start: number, end: number, value: CSSAnimation} => {
     const result: Partial<CSSAnimation> = {};
     const set = <Key extends keyof CSSAnimation>(
         value: CSSAnimation[Key],
@@ -44,8 +45,10 @@ export const parseSingleAnimationShorthand = (
         }
         throw new Error('UnexpectedValue', `${value} (${keys.join(', ')})`);
     };
-    let index = 0;
+    let index = skip(input, startFrom, isWhiteSpace);
     const inputLength = input.length;
+    const start = index;
+    let lastEnd = index;
     while (index < inputLength) {
         index = skip(input, index, isWhiteSpace);
         const cp = input.codePointAt(index);
@@ -67,38 +70,44 @@ export const parseSingleAnimationShorthand = (
             set(value, 'name');
             index = end;
         } else {
-            const {value, end} = getCustomIdent(input, index);
-            index = end;
-            if (value === 'infinite') {
-                set(value, 'iterationCount');
-            } else if (value === 'cubic-bezier') {
-                if (input.codePointAt(end) === OpenParenthesis) {
-                    const result = getCubicBezier(input, index);
-                    set(result.value, 'timingFunction');
-                    index = result.end;
+            const ident = getCustomIdentOrNull(input, index);
+            if (ident) {
+                const {value, end} = ident;
+                index = end;
+                if (value === 'infinite') {
+                    set(value, 'iterationCount');
+                } else if (value === 'cubic-bezier') {
+                    if (input.codePointAt(end) === OpenParenthesis) {
+                        const result = getCubicBezier(input, index);
+                        set(result.value, 'timingFunction');
+                        index = result.end;
+                    } else {
+                        set(value, 'name');
+                    }
+                } else if (value === 'steps') {
+                    if (input.codePointAt(end) === OpenParenthesis) {
+                        const result = getSteps(input, index);
+                        set(result.value, 'timingFunction');
+                        index = result.end;
+                    } else {
+                        set(value, 'name');
+                    }
+                } else if (TimingFunctionKeyword.has(value)) {
+                    set(value as CSSTimingFunctionKeyword, 'timingFunction', 'name');
+                } else if (AnimationFillMode.has(value)) {
+                    set(value as CSSAnimationFillMode, 'fillMode', 'name');
+                } else if (AnimationDirection.has(value)) {
+                    set(value as CSSAnimationDirection, 'direction', 'name');
+                } else if (AnimationPlayState.has(value)) {
+                    set(value as CSSAnimationPlayState, 'playState', 'name');
                 } else {
                     set(value, 'name');
                 }
-            } else if (value === 'steps') {
-                if (input.codePointAt(end) === OpenParenthesis) {
-                    const result = getSteps(input, index);
-                    set(result.value, 'timingFunction');
-                    index = result.end;
-                } else {
-                    set(value, 'name');
-                }
-            } else if (TimingFunctionKeyword.has(value)) {
-                set(value as CSSTimingFunctionKeyword, 'timingFunction', 'name');
-            } else if (AnimationFillMode.has(value)) {
-                set(value as CSSAnimationFillMode, 'fillMode', 'name');
-            } else if (AnimationDirection.has(value)) {
-                set(value as CSSAnimationDirection, 'direction', 'name');
-            } else if (AnimationPlayState.has(value)) {
-                set(value as CSSAnimationPlayState, 'playState', 'name');
             } else {
-                set(value, 'name');
+                break;
             }
         }
+        lastEnd = index;
     }
     if (!result.name) {
         if (result.fillMode === 'none') {
@@ -108,5 +117,9 @@ export const parseSingleAnimationShorthand = (
             throw new Error('NoName');
         }
     }
-    return fillAnimation(result as Partial<CSSAnimation> & {name: string});
+    return {
+        start,
+        end: lastEnd,
+        value: fillAnimation(result as Partial<CSSAnimation> & {name: string}),
+    };
 };

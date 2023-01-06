@@ -1,4 +1,4 @@
-import ava from 'ava';
+import * as assert from 'assert';
 import {getString} from './getString';
 
 const test = (
@@ -10,13 +10,12 @@ const test = (
         value: string,
     },
 ): void => {
-    ava(`${input} ${start} -> ${expected ? JSON.stringify(expected) : 'Error'}`, (t) => {
-        if (typeof expected === 'string') {
-            t.throws(() => getString(input, start), {code: expected});
-        } else {
-            t.deepEqual(getString(input, start), expected);
-        }
-    });
+    console.info(`${input} ${start} -> ${expected ? JSON.stringify(expected) : 'Error'}`);
+    if (typeof expected === 'string') {
+        assert.throws(() => getString(input, start), {code: expected});
+    } else {
+        assert.deepEqual(getString(input, start), expected);
+    }
 };
 
 test('"abc"', 0, {start: 0, end: 5, value: 'abc'});

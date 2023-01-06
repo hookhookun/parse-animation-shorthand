@@ -1,4 +1,4 @@
-import ava from 'ava';
+import * as assert from 'assert';
 import {getCubicBezier} from './getCubicBezier';
 
 const test = (
@@ -10,20 +10,19 @@ const test = (
         value: [number, number, number, number],
     },
 ): void => {
-    ava(`${input} ${start} -> ${expected ? JSON.stringify(expected) : 'Error'}`, (t) => {
-        if (typeof expected == 'string') {
-            t.throws(() => getCubicBezier(input, start), {code: expected});
-        } else {
-            t.deepEqual(getCubicBezier(input, start), {
-                start: expected.start,
-                end: expected.end,
-                value: {
-                    type: 'cubic-bezier',
-                    value: expected.value,
-                },
-            });
-        }
-    });
+    console.info(`${input} ${start} -> ${expected ? JSON.stringify(expected) : 'Error'}`);
+    if (typeof expected == 'string') {
+        assert.throws(() => getCubicBezier(input, start), {code: expected});
+    } else {
+        assert.deepEqual(getCubicBezier(input, start), {
+            start: expected.start,
+            end: expected.end,
+            value: {
+                type: 'cubic-bezier',
+                value: expected.value,
+            },
+        });
+    }
 };
 
 test('(0,0,1,1)', 0, {start: 0, end: 9, value: [0, 0, 1, 1]});
