@@ -4,10 +4,10 @@ import {CSSAnimation} from './type';
 
 const test = (
     input: string,
-    expected: ReturnType<typeof parseAnimationShorthand>,
+    expected: Array<CSSAnimation>,
 ): void => {
     console.info(input);
-    assert.deepEqual(parseAnimationShorthand(input), expected);
+    assert.deepEqual([...parseAnimationShorthand(input)], expected);
 };
 
 test(
