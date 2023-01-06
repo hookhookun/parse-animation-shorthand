@@ -33,4 +33,5 @@ test('( 4 , jump-both )', 0, {start: 0, end: 17, count: 4, direction: 'jump-both
 test('( 4 , jump-bo )', 0, 'UnknownStepDirection');
 test('( 4 , jump-both ', 0, 'UnclosedParenthesis');
 test(' 4 , jump-both )', 0, 'NoOpenParenthesis');
-test('( 4 jump-both )', 0, 'NoComma');
+test('( 4 jump-both )', 0, 'UnclosedParenthesis');
+test('( 10 )', 0, {start: 0, end: 6, count: 10, direction: 'end'});
